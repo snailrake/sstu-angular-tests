@@ -1,0 +1,6 @@
+/* src/app/app.component.css */
+/* Здесь можно добавить глобальные стили для корневого компонента */
+:host {
+  display: block;
+  padding: 16px;
+}
