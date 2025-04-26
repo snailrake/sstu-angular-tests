@@ -1,28 +1,21 @@
-// src/app/login.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule }     from '@angular/material/input';
-import { MatButtonModule }    from '@angular/material/button';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {Router, RouterModule} from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';  // Исправлено
+import { MatInputModule } from '@angular/material/input';  // Исправлено
+import { MatButtonModule } from '@angular/material/button';  // Исправлено
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, RouterModule, MatFormFieldModule, MatInputModule],  // Исправлено
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   form: FormGroup;
-  error = '';
+  error: string = '';
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.form = this.fb.group({
@@ -31,17 +24,18 @@ export class LoginComponent {
     });
   }
 
-  submit() {
-    if (this.form.valid) {
-      // простая “имитация” логина
-      const { username, password } = this.form.value;
-      if (username === 'teacher') {
-        this.router.navigate(['/teacher']);
-      } else {
-        this.router.navigate(['/student']);
-      }
+  submit(): void {
+    const { username, password } = this.form.value;
+
+    // Примерная логика аутентификации
+    if (username === 'teacher' && password === '123') {
+      localStorage.setItem('currentUser', 'teacher');
+      this.router.navigate(['/teacher']);
+    } else if (username === 'student' && password === '123') {
+      localStorage.setItem('currentUser', 'student');
+      this.router.navigate(['/student']);
     } else {
-      this.error = 'Введите имя и пароль';
+      this.error = 'Неверное имя пользователя или пароль';
     }
   }
 }

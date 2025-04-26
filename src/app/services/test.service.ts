@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 export interface Question {
   text: string;
   options: string[];
   correctAnswer: number;
-  points: number;
+  points: number; // Баллы для вопроса
 }
 
 export interface Test {
@@ -22,26 +22,26 @@ export class TestService {
   private testsKey = 'tests';
   private resultsKey = 'results';
 
-  // сохранить тест в localStorage
+  // Сохраняем тест
   saveTest(test: Test): void {
     const arr = this.getTests();
     arr.push(test);
     localStorage.setItem(this.testsKey, JSON.stringify(arr));
   }
 
-  // получить все тесты
+  // Получаем все тесты
   getTests(): Test[] {
     return JSON.parse(localStorage.getItem(this.testsKey) || '[]');
   }
 
-  // сохранить результат студента
+  // Сохраняем результат
   saveResult(result: StudentResult): void {
-    const arr = this.getResults();
-    arr.push(result);
-    localStorage.setItem(this.resultsKey, JSON.stringify(arr));
+    const results = this.getResults();
+    results.push(result);
+    localStorage.setItem(this.resultsKey, JSON.stringify(results));
   }
 
-  // получить все результаты
+  // Получаем все результаты
   getResults(): StudentResult[] {
     return JSON.parse(localStorage.getItem(this.resultsKey) || '[]');
   }
