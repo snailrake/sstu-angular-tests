@@ -3,3 +3,9 @@ body { margin: 0; font-family: Roboto, sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Подтянем всю мат-вёрстку под контейнер */
+mat-tab-group,
+form {
+  width: 100%;
+}

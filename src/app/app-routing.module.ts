@@ -1,20 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './features/login/login.component';
+import { Routes } from '@angular/router';
+
+import { LoginComponent }            from './features/login/login.component';
+import { TeacherDashboardComponent } from './teacher-dashboard.component';
 import { StudentDashboardComponent } from './features/student-dashboard/student-dashboard.component';
-import { TeacherDashboardComponent } from './features/teacher-dashboard/teacher-dashboard.component';
-import { AuthGuard } from '../core/guards/auth.guard';
 
-const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'student', component: StudentDashboardComponent, canActivate: [AuthGuard], data: { role: 'student' } },
-    { path: 'teacher', component: TeacherDashboardComponent, canActivate: [AuthGuard], data: { role: 'teacher' } },
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: '**', redirectTo: 'login' }
+export const routes: Routes = [
+  { path: 'login',   component: LoginComponent },
+  { path: 'teacher', component: TeacherDashboardComponent },
+  { path: 'student', component: StudentDashboardComponent },
+
+  // При заходе на корень — сразу на login
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
-
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
-export class AppRoutingModule { }

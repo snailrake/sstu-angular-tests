@@ -1,6 +1,7 @@
-/* src/app/app.component.css */
-/* Здесь можно добавить глобальные стили для корневого компонента */
-:host {
-  display: block;
-  padding: 16px;
+/* Ограничиваем ширину и центрируем контейнер */
+.app-container {
+  max-width: 800px;      /* Ширина не больше 800px */
+  margin: 0 auto;        /* Центрирование по горизонтали */
+  padding: 16px 8px;     /* Отступы вокруг содержимого */
+  box-sizing: border-box;
 }

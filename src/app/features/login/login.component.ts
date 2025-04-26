@@ -1,25 +1,47 @@
+// src/app/login.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule }     from '@angular/material/input';
+import { MatButtonModule }    from '@angular/material/button';
 
-@Component({ selector: 'app-login', templateUrl: './login.component.html', standalone: false })
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
 export class LoginComponent {
   form: FormGroup;
   error = '';
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
-    this.form = this.fb.group({ username: ['', Validators.required], password: ['', Validators.required] });
+  constructor(private fb: FormBuilder, private router: Router) {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   submit() {
-    this.auth.login(this.form.value.username, this.form.value.password).subscribe(ok => {
-      if (ok) {
-        const role = this.auth.currentUser?.role;
-        this.router.navigate([role === 'teacher' ? '/teacher' : '/student']);
+    if (this.form.valid) {
+      // простая “имитация” логина
+      const { username, password } = this.form.value;
+      if (username === 'teacher') {
+        this.router.navigate(['/teacher']);
       } else {
-        this.error = 'Неправильный логин или пароль';
+        this.router.navigate(['/student']);
       }
-    });
+    } else {
+      this.error = 'Введите имя и пароль';
+    }
   }
 }

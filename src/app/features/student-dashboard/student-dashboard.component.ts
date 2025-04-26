@@ -1,8 +1,19 @@
+// src/app/student-dashboard.component.ts
 import { Component } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule }   from '@angular/common';
+import { MatButtonModule} from '@angular/material/button';
+import { Router }        from '@angular/router';
 
-@Component({ selector: 'app-student-dashboard', templateUrl: './student-dashboard.component.html', standalone: false })
+@Component({
+  selector: 'app-student-dashboard',
+  standalone: true,
+  imports: [ CommonModule, MatButtonModule ],
+  templateUrl: './student-dashboard.component.html',
+  styleUrls: ['./student-dashboard.component.css']
+})
 export class StudentDashboardComponent {
-  constructor(private auth: AuthService) {}
-  logout() { this.auth.logout(); }
+  constructor(private router: Router) {}
+  logout() {
+    this.router.navigate(['/login']);
+  }
 }
