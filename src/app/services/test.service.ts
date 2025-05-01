@@ -1,48 +1,47 @@
-import {Injectable} from '@angular/core';
+// src/app/features/services/test.service.ts
+import { Injectable }      from '@angular/core';
+import { HttpClient }      from '@angular/common/http';
+import { Observable }      from 'rxjs';
+import { environment }     from '../environments/environment';
 
 export interface Question {
   text: string;
   options: string[];
   correctAnswer: number;
-  points: number; // Баллы для вопроса
+  points: number;
 }
 
 export interface Test {
+  id?: number;
   title: string;
   questions: Question[];
 }
 
 export interface StudentResult {
+  id?: number;
   name: string;
   score: number;
 }
 
 @Injectable({ providedIn: 'root' })
 export class TestService {
-  private testsKey = 'tests';
-  private resultsKey = 'results';
+  private api = environment.apiUrl;
 
-  // Сохраняем тест
-  saveTest(test: Test): void {
-    const arr = this.getTests();
-    arr.push(test);
-    localStorage.setItem(this.testsKey, JSON.stringify(arr));
+  constructor(private http: HttpClient) {}
+
+  saveTest(test: Test): Observable<Test> {
+    return this.http.post<Test>(`${this.api}/tests`, test);
   }
 
-  // Получаем все тесты
-  getTests(): Test[] {
-    return JSON.parse(localStorage.getItem(this.testsKey) || '[]');
+  getTests(): Observable<Test[]> {
+    return this.http.get<Test[]>(`${this.api}/tests`);
   }
 
-  // Сохраняем результат
-  saveResult(result: StudentResult): void {
-    const results = this.getResults();
-    results.push(result);
-    localStorage.setItem(this.resultsKey, JSON.stringify(results));
+  saveResult(result: StudentResult): Observable<StudentResult> {
+    return this.http.post<StudentResult>(`${this.api}/results`, result);
   }
 
-  // Получаем все результаты
-  getResults(): StudentResult[] {
-    return JSON.parse(localStorage.getItem(this.resultsKey) || '[]');
+  getResults(): Observable<StudentResult[]> {
+    return this.http.get<StudentResult[]>(`${this.api}/results`);
   }
 }

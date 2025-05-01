@@ -1,2 +1,23 @@
-.full-width { width: 100%; }
-.no-data   { text-align: center; padding: 16px; font-style: italic; }
+.full-width {
+  width: 100%;
+}
+
+.no-data {
+  text-align: center;
+  padding: 16px;
+  font-style: italic;
+}
+
+mat-tab-group {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.create-test-wrapper {
+  padding: 16px;
+  overflow: hidden;
+}
+
+mat-tab-body {
+  overflow: visible !important;
+}

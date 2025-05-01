@@ -1,14 +1,30 @@
-.full-width { width: 100%; }
-.half-width { width: 48%; margin-right: 4%; }
+:host {
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.full-width   { width: 100%; }
+.half-width   { width: 48%; margin-right: 4%; }
+
 .question-block {
   margin-bottom: 24px;
   padding: 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-.options-list { margin: 16px 0; }
+
+.options-list {
+  margin: 16px 0;
+}
+
 .option-item {
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 }
-.option-field { flex: 1; }
+
+.option-field {
+  flex: 1;
+}

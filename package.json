@@ -2,6 +2,7 @@
   "name": "sstu-angular-tests",
   "version": "0.0.0",
   "scripts": {
+    "start:json-server": "json-server --watch db.json --port 3000",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

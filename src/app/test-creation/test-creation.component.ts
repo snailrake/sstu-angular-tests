@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// src/app/features/test-creation/test-creation.component.ts
+import { Component, OnInit }    from '@angular/core';
+import { CommonModule }         from '@angular/common';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -8,13 +9,13 @@ import {
   Validators
 } from '@angular/forms';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule }     from '@angular/material/input';
-import { MatButtonModule }    from '@angular/material/button';
-import { MatIconModule }      from '@angular/material/icon';
-import { MatDividerModule }   from '@angular/material/divider';
+import { MatFormFieldModule }   from '@angular/material/form-field';
+import { MatInputModule }       from '@angular/material/input';
+import { MatButtonModule }      from '@angular/material/button';
+import { MatIconModule }        from '@angular/material/icon';
+import { MatDividerModule }     from '@angular/material/divider';
 
-import { TestService, Test } from '../services/test.service';
+import { TestService, Test }    from '../services/test.service';
 
 @Component({
   selector: 'app-test-creation',
@@ -47,12 +48,14 @@ export class TestCreationComponent implements OnInit {
     this.addQuestion();
   }
 
+  // Ссылку на массив вопросов из формы
   get questions(): FormArray {
     return this.form.get('questions') as FormArray;
   }
 
+  // Добавить новый вопрос (с двумя пустыми вариантами по умолчанию)
   addQuestion(): void {
-    const q = this.fb.group({
+    const questionGroup = this.fb.group({
       text: ['', Validators.required],
       options: this.fb.array([
         this.fb.control('', Validators.required),
@@ -61,31 +64,52 @@ export class TestCreationComponent implements OnInit {
       correctAnswer: [0, Validators.required],
       points: [1, [Validators.required, Validators.min(1)]]
     });
-    this.questions.push(q);
+    this.questions.push(questionGroup);
   }
 
+  // Удалить вопрос по индексу
   removeQuestion(i: number): void {
     this.questions.removeAt(i);
   }
 
-  options(i: number): FormArray {
-    return this.questions.at(i).get('options') as FormArray;
+  // Ссылку на массив вариантов конкретного вопроса
+  options(qIndex: number): FormArray {
+    return this.questions.at(qIndex).get('options') as FormArray;
   }
 
-  addOption(i: number): void {
-    this.options(i).push(this.fb.control('', Validators.required));
+  // Добавить вариант к вопросу
+  addOption(qIndex: number): void {
+    this.options(qIndex).push(this.fb.control('', Validators.required));
   }
 
+  // Удалить вариант вопроса
   removeOption(qIndex: number, oIndex: number): void {
     this.options(qIndex).removeAt(oIndex);
   }
 
+  // Сохранить тест через HTTP POST в mock-API
   submit(): void {
-    if (this.form.invalid) return;
-    this.testService.saveTest(this.form.value as Test);
-    this.form.reset();
-    this.questions.clear();
-    this.addQuestion();
-    alert('Тест сохранён!');
+    console.log('submit() called, form valid?', this.form.valid);
+    if (this.form.invalid) {
+      console.warn('Form invalid, not sending request');
+      return;
+    }
+
+    const newTest: Test = this.form.value;
+    this.testService.saveTest(newTest)
+      .subscribe({
+        next: res => {
+          console.log('JSON-server ответил:', res);
+          this.form.reset();
+          this.questions.clear();
+          this.addQuestion();
+          alert('Тест сохранён в mock-db!');
+        },
+        error: err => {
+          console.error('Ошибка при сохранении теста:', err);
+          alert('Не удалось сохранить тест. Проверьте консоль.');
+        }
+      });
   }
+
 }

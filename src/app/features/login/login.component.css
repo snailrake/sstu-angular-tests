@@ -1,4 +1,16 @@
-.error {
-  color: red;
-  font-size: 14px;
+.login-form {
+  max-width: 320px;
+  margin: 64px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 0.875rem;
 }
