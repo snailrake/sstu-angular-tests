@@ -1,32 +1,17 @@
-// src/app/features/test-taker/test-taker.component.ts
-import { Component, OnInit }      from '@angular/core';
-import { CommonModule }           from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import {
-  Router,
-  ActivatedRoute,
-  RouterModule
-} from '@angular/router';
-import { MatButtonModule }        from '@angular/material/button';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
-import { TestService, Test }      from '../services/test.service';
+import { TestService, Test } from '../services/test.service';
 
 @Component({
   selector: 'app-test-taker',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, MatButtonModule],
   templateUrl: './test-taker.component.html',
-  styleUrls: ['./test-taker.component.css']
+  styleUrls: ['./test-taker.component.css'],
 })
 export class TestTakerComponent implements OnInit {
   test!: Test;
@@ -35,33 +20,33 @@ export class TestTakerComponent implements OnInit {
   name = '';
   timer = 0;
   form: FormGroup;
+  private tickInterval!: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private testService: TestService
+    private testService: TestService,
   ) {
     this.form = this.fb.group({
-      answer: [null, Validators.required]
+      answer: [null, Validators.required],
     });
   }
 
   ngOnInit(): void {
     this.name = prompt('Введите ваше имя') || 'Студент';
-    const idx = Number(this.route.snapshot.paramMap.get('id'));
-    this.testService.getTests()
-      .subscribe(tests => {
-        this.test = tests[idx];
-        this.startTimer();
-      });
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.testService.getTests().subscribe((tests) => {
+      this.test = tests[id];
+      this.startTimer(this.test.timeLimit);
+    });
   }
 
-  startTimer() {
-    this.timer = 300;
-    const tick = setInterval(() => {
+  startTimer(minutes: number) {
+    this.timer = minutes * 60;
+    this.tickInterval = setInterval(() => {
       if (this.timer <= 0) {
-        clearInterval(tick);
+        clearInterval(this.tickInterval);
         this.finish();
       } else {
         this.timer--;
@@ -70,9 +55,7 @@ export class TestTakerComponent implements OnInit {
   }
 
   next() {
-    const ans = this.form.value.answer;
-    // начисляем очки за текущий вопрос
-    if (ans === this.test.questions[this.currentQuestionIndex].correctAnswer) {
+    if (this.form.value.answer === this.test.questions[this.currentQuestionIndex].correctAnswer) {
       this.score += this.test.questions[this.currentQuestionIndex].points;
     }
     this.currentQuestionIndex++;
@@ -80,21 +63,22 @@ export class TestTakerComponent implements OnInit {
   }
 
   finish() {
-    const ans = this.form.value.answer;
-    // **тут** тоже начисляем очки за последний вопрос
-    if (ans === this.test.questions[this.currentQuestionIndex].correctAnswer) {
-      this.score += this.test.questions[this.currentQuestionIndex].points;
+    // начисляем за последний вопрос, если остался незавершённым
+    if (this.form.valid && this.currentQuestionIndex < this.test.questions.length) {
+      if (this.form.value.answer === this.test.questions[this.currentQuestionIndex].correctAnswer) {
+        this.score += this.test.questions[this.currentQuestionIndex].points;
+      }
     }
-
-    this.testService.saveResult({ name: this.name, score: this.score })
-      .subscribe(() => {
-        alert(
-          `Тест завершён: ${this.score} из ${
-            this.test.questions.reduce((acc, q) => acc + q.points, 0)
-          }`
-        );
-        this.router.navigate(['/student']);
-      });
+    clearInterval(this.tickInterval);
+    this.testService.saveResult({ name: this.name, score: this.score }).subscribe(() => {
+      alert(
+        `Тест завершён: ${this.score} из ${this.test.questions.reduce(
+          (acc, q) => acc + q.points,
+          0,
+        )}`,
+      );
+      this.router.navigate(['/student']);
+    });
   }
 
   get currentQuestion() {

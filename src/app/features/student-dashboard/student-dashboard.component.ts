@@ -1,16 +1,14 @@
 // src/app/features/student-dashboard/student-dashboard.component.ts
-import { Component, OnInit }   from '@angular/core';
-import { Router }              from '@angular/router';
-import { CommonModule }        from '@angular/common';
-import { MatButtonModule }     from '@angular/material/button';
-import { MatTabsModule }       from '@angular/material/tabs';
-import { MatTableModule }      from '@angular/material/table';
-import { MatListModule }       from '@angular/material/list';
-import { RouterModule }        from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
 
-import { TestService,
-  Test,
-  StudentResult }      from '../../services/test.service';
+import { TestService, Test, StudentResult } from '../../services/test.service';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -21,10 +19,10 @@ import { TestService,
     MatTabsModule,
     MatTableModule,
     MatListModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './student-dashboard.component.html',
-  styleUrls: ['./student-dashboard.component.css']
+  styleUrls: ['./student-dashboard.component.css'],
 })
 export class StudentDashboardComponent implements OnInit {
   tests: Test[] = [];
@@ -33,14 +31,12 @@ export class StudentDashboardComponent implements OnInit {
 
   constructor(
     private testService: TestService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    this.testService.getTests()
-      .subscribe(t => this.tests = t);
-    this.testService.getResults()
-      .subscribe(r => this.history = r);
+    this.testService.getTests().subscribe((t) => (this.tests = t));
+    this.testService.getResults().subscribe((r) => (this.history = r));
   }
 
   logout(): void {

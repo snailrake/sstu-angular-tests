@@ -1,8 +1,7 @@
-// src/app/features/services/test.service.ts
-import { Injectable }      from '@angular/core';
-import { HttpClient }      from '@angular/common/http';
-import { Observable }      from 'rxjs';
-import { environment }     from '../environments/environment';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 export interface Question {
   text: string;
@@ -15,6 +14,7 @@ export interface Test {
   id?: number;
   title: string;
   questions: Question[];
+  timeLimit: number; // в минутах
 }
 
 export interface StudentResult {

@@ -5,8 +5,13 @@
   padding: 16px;
 }
 
-.full-width   { width: 100%; }
-.half-width   { width: 48%; margin-right: 4%; }
+.full-width {
+  width: 100%;
+}
+.half-width {
+  width: 48%;
+  margin-right: 4%;
+}
 
 .question-block {
   margin-bottom: 24px;
@@ -27,4 +32,17 @@
 
 .option-field {
   flex: 1;
+}
+
+.meta-row {
+  display: flex;
+  gap: 4%;
+  margin-top: 8px;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 }

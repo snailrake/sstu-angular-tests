@@ -1,33 +1,26 @@
 <div class="test-container" *ngIf="currentQuestion">
   <h2>Тест: {{ test.title }}</h2>
-  <p><strong>Вопрос {{ currentQuestionIndex + 1 }}:</strong>
-    {{ currentQuestion.text }}</p>
+  <p class="timer">Осталось {{ timer }} сек.</p>
+
+  <p>
+    <strong>Вопрос {{ currentQuestionIndex + 1 }}:</strong> {{ currentQuestion.text }}
+  </p>
 
   <form [formGroup]="form">
     <div *ngFor="let opt of currentQuestion.options; let i = index">
       <label>
-        <input type="radio"
-               [value]="i"
-               formControlName="answer">
+        <input type="radio" [value]="i" formControlName="answer" />
         {{ opt }}
       </label>
     </div>
   </form>
 
   <div class="actions">
-    <button mat-raised-button
-            color="primary"
-            (click)="next()"
-            *ngIf="!isLast && form.valid">
+    <button mat-raised-button color="primary" (click)="next()" *ngIf="!isLast && form.valid">
       Следующий
     </button>
-    <button mat-raised-button
-            color="accent"
-            (click)="finish()"
-            *ngIf="isLast && form.valid">
+    <button mat-raised-button color="accent" (click)="finish()" *ngIf="isLast && form.valid">
       Завершить
     </button>
   </div>
-
-  <p class="timer">Осталось {{ timer }} сек.</p>
 </div>

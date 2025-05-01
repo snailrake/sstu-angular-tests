@@ -11,13 +11,13 @@ export class AuthService {
   // Простейшие данные — можно заменить на API-вызовы
   private users: User[] = [
     { username: 'student', password: '123', role: 'student' },
-    { username: 'teacher', password: '123', role: 'teacher' }
+    { username: 'teacher', password: '123', role: 'teacher' },
   ];
 
   constructor(private router: Router) {}
 
   login(username: string, password: string): Observable<boolean> {
-    const user = this.users.find(u => u.username === username && u.password === password);
+    const user = this.users.find((u) => u.username === username && u.password === password);
     if (user) {
       this.currentUserSubject.next(user);
       return of(true);

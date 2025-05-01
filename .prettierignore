@@ -1,0 +1,8 @@
+# игнорировать билд-выход и зависимости
+node_modules
+dist
+db.json
+
+# игнорировать конфиги
+.eslintrc.json
+.prettierrc.json
