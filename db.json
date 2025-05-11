@@ -15,12 +15,43 @@
           "points": 100
         }
       ]
+    },
+    {
+      "id": "70f1",
+      "title": "фукп",
+      "timeLimit": 5,
+      "questions": [
+        {
+          "text": "фцукп",
+          "options": [
+            "фукп",
+            "фукп"
+          ],
+          "correctAnswer": 0,
+          "points": 1
+        }
+      ]
     }
   ],
   "results": [
     {
       "id": "b50e",
       "name": "BABAN",
+      "score": 0
+    },
+    {
+      "id": "ab70",
+      "name": "FFFFFF",
+      "score": 0
+    },
+    {
+      "id": "ad1f",
+      "name": "wefg",
+      "score": 100
+    },
+    {
+      "id": "3d2a",
+      "name": "Студент",
       "score": 0
     }
   ]

@@ -1,4 +1,3 @@
-// src/main.ts
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -21,4 +20,4 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     importProvidersFrom(BrowserModule, BrowserAnimationsModule, HttpClientModule),
   ],
-}).catch((err) => console.error(err));
+}).catch(err => console.error(err));

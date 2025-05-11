@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
+import {CommonModule} from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,41 +16,32 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-  form: FormGroup;
-  error = '';
+export class LoginComponent implements OnInit {
+  form!: FormGroup;
+  error: string | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-  ) {
+  constructor(private fb: FormBuilder, private auth: AuthService) {}
+
+  ngOnInit() {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  submit(): void {
-    if (this.form.invalid) {
-      this.error = 'Пожалуйста, заполните оба поля';
-      return;
-    }
+  submit() {
+    if (this.form.invalid) return;
 
     const { username, password } = this.form.value;
-
-    if (username === 'teacher' && password === '123') {
-      localStorage.setItem('currentUser', 'teacher');
-      this.router.navigate(['/teacher']);
-    } else if (username === 'student' && password === '123') {
-      localStorage.setItem('currentUser', 'student');
-      this.router.navigate(['/student']);
-    } else {
-      this.error = 'Неверное имя пользователя или пароль';
-    }
+    this.auth.login(username, password).subscribe(ok => {
+      if (!ok) {
+        this.error = 'Неверное имя пользователя или пароль';
+      }
+    });
   }
 }
