@@ -5,12 +5,10 @@ import { User } from '../../app/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // сразу пытаемся взять из localStorage
   private currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
 
-  // у вас “база” пользователей в памяти
-  private users: Array<{ username: string; password: string; role: User['role'] }> = [
+  private users: { username: string; password: string; role: 'student' | 'teacher' }[] = [
     { username: 'student', password: '123', role: 'student' },
     { username: 'teacher', password: '123', role: 'teacher' },
   ];
@@ -23,24 +21,22 @@ export class AuthService {
     try {
       return JSON.parse(stored) as User;
     } catch {
-      // если parse упал — просто очищаем
       localStorage.removeItem('currentUser');
       return null;
     }
   }
 
   login(username: string, password: string): Observable<boolean> {
-    const found = this.users.find(u => u.username === username && u.password === password);
-    if (found) {
-      const user: User = { username: found.username, role: found.role };
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      this.currentUserSubject.next(user);
-      // редирект по роли
-      this.router.navigate([found.role]);
+    const user = this.users.find(u => u.username === username && u.password === password);
+    if (user) {
+      const { username: userName, role } = user;
+      const currentUser: User = { username: userName, role };
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      this.currentUserSubject.next(currentUser);
+      this.router.navigate([role]);
       return of(true);
-    } else {
-      return of(false);
     }
+    return of(false);
   }
 
   logout(): void {

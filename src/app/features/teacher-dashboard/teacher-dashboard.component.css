@@ -1,23 +1,35 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.dashboard-content {
+  width: 90vw;
+  min-width: 37.5rem;
+  max-width: 62.5rem;
+  height: calc(100vh - 2rem);
+  overflow: auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
 .full-width {
   width: 100%;
 }
 
+.create-test-wrapper,
+.results-wrapper {
+  padding-block: 1rem;
+}
+
 .no-data {
   text-align: center;
-  padding: 16px;
+  padding: 1rem;
   font-style: italic;
-}
-
-mat-tab-group {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.create-test-wrapper {
-  padding: 16px;
-  overflow: hidden;
-}
-
-mat-tab-body {
-  overflow: visible !important;
 }

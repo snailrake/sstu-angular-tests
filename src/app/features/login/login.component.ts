@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../core/services/auth.service';
-import {CommonModule} from '@angular/common';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,33 +16,41 @@ import {RouterModule} from '@angular/router';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    RouterModule
+    MatButtonModule
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
   error: string | null = null;
+  isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  submit() {
-    if (this.form.invalid) return;
+  submit(): void {
+    if (this.form.invalid || this.isSubmitting) return;
+
+    this.isSubmitting = true;
+    this.error = null;
 
     const { username, password } = this.form.value;
-    this.auth.login(username, password).subscribe(ok => {
-      if (!ok) {
-        this.error = 'Неверное имя пользователя или пароль';
-      }
-    });
+    this.auth.login(username, password)
+      .pipe(finalize(() => this.isSubmitting = false))
+      .subscribe(success => {
+        if (!success) {
+          this.error = 'Неверное имя пользователя или пароль';
+        }
+      });
   }
 }

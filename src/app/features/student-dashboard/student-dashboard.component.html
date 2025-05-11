@@ -1,32 +1,41 @@
-<h2>Панель студента</h2>
-<button mat-button (click)="logout()">Logout</button>
+<div class="dashboard-content">
+  <h2>Панель студента</h2>
 
-<mat-tab-group>
-  <mat-tab label="Доступные тесты">
-    <mat-list *ngIf="tests.length; else none">
-      <mat-list-item *ngFor="let t of tests; let i = index">
-        {{ t.title }}
-        <button mat-button color="primary" [routerLink]="['/test', i]">Начать</button>
-      </mat-list-item>
-    </mat-list>
-    <ng-template #none>Нет доступных тестов.</ng-template>
-  </mat-tab>
+  <mat-tab-group>
+    <mat-tab label="Доступные тесты">
+      <ng-container *ngIf="tests.length; else noTests">
+        <mat-list>
+          <mat-list-item *ngFor="let test of tests; index as i">
+            {{ test.title }}
+            <button mat-button [routerLink]="['/test', i]">Начать</button>
+          </mat-list-item>
+        </mat-list>
+      </ng-container>
+      <ng-template #noTests>
+        <div class="no-data">Нет доступных тестов</div>
+      </ng-template>
+    </mat-tab>
 
-  <mat-tab label="История попыток">
-    <table mat-table [dataSource]="history" class="full-width mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Студент</th>
-        <td mat-cell *matCellDef="let r">{{ r.name }}</td>
+    <mat-tab label="История попыток">
+      <ng-container *ngIf="history.length; else noHistory">
+        <table mat-table [dataSource]="history" class="full-width mat-elevation-z8">
+          <ng-container matColumnDef="testTitle">
+            <th mat-header-cell *matHeaderCellDef>Тест</th>
+            <td mat-cell *matCellDef="let row">{{ row.testTitle }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="score">
+            <th mat-header-cell *matHeaderCellDef>Баллы</th>
+            <td mat-cell *matCellDef="let row">{{ row.score }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
       </ng-container>
-      <ng-container matColumnDef="score">
-        <th mat-header-cell *matHeaderCellDef>Баллы</th>
-        <td mat-cell *matCellDef="let r">{{ r.score }}</td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <tr *ngIf="!history.length">
-        <td colspan="2" class="no-data">Нет попыток</td>
-      </tr>
-    </table>
-  </mat-tab>
-</mat-tab-group>
+      <ng-template #noHistory>
+        <div class="no-data">Нет попыток</div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

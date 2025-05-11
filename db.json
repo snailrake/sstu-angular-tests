@@ -1,58 +1,64 @@
 {
   "tests": [
     {
-      "id": "3321",
-      "title": "wergwer",
-      "timeLimit": 1,
+      "id": "abcd",
+      "title": "Тестовый тест",
+      "timeLimit": 3,
       "questions": [
         {
-          "text": "we",
+          "text": "Вопрос 1",
           "options": [
-            "fgwe",
-            "wefg"
+            "Вариант 1",
+            "Вариант 2",
+            "Вариант 3",
+            "Вариант 4"
           ],
           "correctAnswer": 0,
-          "points": 100
-        }
-      ]
-    },
-    {
-      "id": "70f1",
-      "title": "фукп",
-      "timeLimit": 5,
-      "questions": [
+          "points": 10
+        },
         {
-          "text": "фцукп",
+          "text": "Вопрос 2",
           "options": [
-            "фукп",
-            "фукп"
+            "Вариант 1",
+            "Вариант 2",
+            "Вариант 3",
+            "Вариант 4"
           ],
-          "correctAnswer": 0,
-          "points": 1
+          "correctAnswer": 1,
+          "points": 15
+        },
+        {
+          "text": "Вопрос 3",
+          "options": [
+            "Вариант 1",
+            "Вариант 2",
+            "Вариант 3",
+            "Вариант 4"
+          ],
+          "correctAnswer": 2,
+          "points": 20
         }
       ]
     }
   ],
   "results": [
     {
-      "id": "b50e",
-      "name": "BABAN",
-      "score": 0
+      "id": "65d8",
+      "name": "student",
+      "score": 10,
+      "testId": "abcd"
     },
     {
-      "id": "ab70",
-      "name": "FFFFFF",
-      "score": 0
+      "id": "f7d5",
+      "name": "student",
+      "score": 25,
+      "testId": "abcd"
     },
     {
-      "id": "ad1f",
-      "name": "wefg",
-      "score": 100
-    },
-    {
-      "id": "3d2a",
-      "name": "Студент",
-      "score": 0
+      "id": "a662",
+      "name": "student",
+      "score": 15,
+      "testId": "abcd"
     }
   ]
 }

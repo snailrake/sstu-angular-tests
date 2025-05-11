@@ -7,12 +7,11 @@ export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const expectedRole = route.data['role'] as string;
+    const expectedRole = route.data['role'];
     const user = this.auth.currentUser;
-    if (user && user.role === expectedRole) {
+    if (user?.role === expectedRole) {
       return true;
     }
-    // неавторизован или не тот роль — на логин
     this.router.navigate(['/login']);
     return false;
   }

@@ -2,47 +2,52 @@
   display: block;
   max-width: 800px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 1rem;
 }
 
 .full-width {
   width: 100%;
 }
+
 .half-width {
   width: 48%;
   margin-right: 4%;
 }
 
 .question-block {
-  margin-bottom: 24px;
-  padding: 16px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
 .options-list {
-  margin: 16px 0;
+  margin: 1rem 0;
 }
 
 .option-item {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .option-field {
   flex: 1;
 }
 
+.add-option-btn {
+  margin-top: 0.5rem;
+}
+
 .meta-row {
   display: flex;
   gap: 4%;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .actions-row {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }

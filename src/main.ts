@@ -10,9 +10,7 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app-routing.module';
 import { environment } from './app/environments/environment';
 
-if (environment.production) {
-  enableProdMode();
-}
+if (environment.production) enableProdMode();
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -20,4 +18,4 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     importProvidersFrom(BrowserModule, BrowserAnimationsModule, HttpClientModule),
   ],
-}).catch(err => console.error(err));
+}).catch(console.error);

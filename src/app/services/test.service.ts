@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 export interface Question {
@@ -14,13 +15,14 @@ export interface Test {
   id?: number;
   title: string;
   questions: Question[];
-  timeLimit: number; // в минутах
+  timeLimit: number;
 }
 
 export interface StudentResult {
   id?: number;
   name: string;
   score: number;
+  testId: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,5 +45,11 @@ export class TestService {
 
   getResults(): Observable<StudentResult[]> {
     return this.http.get<StudentResult[]>(`${this.api}/results`);
+  }
+
+  getResultsByStudent(username: string): Observable<StudentResult[]> {
+    return this.getResults().pipe(
+      map(results => results.filter(r => r.name === username))
+    );
   }
 }

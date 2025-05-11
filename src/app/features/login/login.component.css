@@ -3,14 +3,14 @@
   margin: 64px auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
-.full-width {
+.w-100 {
   width: 100%;
 }
 
-.error-message {
+.text-error {
   color: #f44336;
   font-size: 0.875rem;
 }

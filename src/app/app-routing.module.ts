@@ -8,7 +8,6 @@ import { AuthGuard } from '../core/guards/auth.guard';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
   {
     path: 'teacher',
     component: TeacherDashboardComponent,
@@ -27,6 +26,5 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'student' },
   },
-
   { path: '**', redirectTo: 'login' },
 ];

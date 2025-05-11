@@ -1,71 +1,51 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="test-form">
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Название теста*</mat-label>
+    <mat-label>Название теста *</mat-label>
     <input matInput formControlName="title" />
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="half-width">
-    <mat-label>Время (минуты)*</mat-label>
+    <mat-label>Время (минуты) *</mat-label>
     <input matInput type="number" formControlName="timeLimit" min="1" />
   </mat-form-field>
 
   <div formArrayName="questions">
-    <div
-      *ngFor="let q of questions.controls; let i = index"
-      [formGroupName]="i"
-      class="question-block"
-    >
+    <div *ngFor="let q of questions.controls; let i = index" [formGroupName]="i" class="question-block">
       <h3>Вопрос {{ i + 1 }}</h3>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Текст вопроса*</mat-label>
+        <mat-label>Текст вопроса *</mat-label>
         <input matInput formControlName="text" />
       </mat-form-field>
 
       <div formArrayName="options" class="options-list">
         <div *ngFor="let o of options(i).controls; let j = index" class="option-item">
           <mat-form-field appearance="outline" class="option-field">
-            <mat-label>Вариант {{ j + 1 }}*</mat-label>
+            <mat-label>Вариант {{ j + 1 }} *</mat-label>
             <input matInput [formControlName]="j" />
           </mat-form-field>
-          <button
-            mat-icon-button
-            color="warn"
-            *ngIf="options(i).length > 2"
-            type="button"
-            (click)="removeOption(i, j)"
-          >
+          <button mat-icon-button color="warn" *ngIf="options(i).length > 2" type="button" (click)="removeOption(i, j)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-        <button mat-mini-button type="button" (click)="addOption(i)">Добавить вариант</button>
+        <button mat-stroked-button color="primary" class="add-option-btn" type="button" (click)="addOption(i)">
+          Добавить вариант
+        </button>
       </div>
 
       <div class="meta-row">
         <mat-form-field appearance="outline" class="half-width">
-          <mat-label>Правильный ответ (index)*</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="correctAnswer"
-            [min]="0"
-            [max]="options(i).length - 1"
-          />
+          <mat-label>Правильный ответ (index) *</mat-label>
+          <input matInput type="number" formControlName="correctAnswer" [min]="0" [max]="options(i).length - 1" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="half-width">
-          <mat-label>Баллы*</mat-label>
+          <mat-label>Баллы *</mat-label>
           <input matInput type="number" formControlName="points" />
         </mat-form-field>
       </div>
 
-      <button
-        mat-button
-        color="warn"
-        *ngIf="questions.length > 1"
-        type="button"
-        (click)="removeQuestion(i)"
-      >
+      <button mat-button color="warn" *ngIf="questions.length > 1" type="button" (click)="removeQuestion(i)">
         Удалить вопрос
       </button>
 
@@ -74,11 +54,7 @@
   </div>
 
   <div class="actions-row">
-    <button mat-stroked-button color="primary" type="button" (click)="addQuestion()">
-      Добавить вопрос
-    </button>
-    <button mat-raised-button color="accent" type="button" (click)="submit()">
-      Сохранить тест
-    </button>
+    <button mat-stroked-button color="primary" type="button" (click)="addQuestion()">Добавить вопрос</button>
+    <button mat-raised-button color="accent" type="button" (click)="submit()">Сохранить тест</button>
   </div>
 </form>

@@ -35,31 +35,26 @@ export class TestCreationComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', Validators.required],
-      timeLimit: [5, [Validators.required, Validators.min(1)]], // по умолчанию 5 мин
-      questions: this.fb.array([]),
+      timeLimit: [5, [Validators.required, Validators.min(1)]],
+      questions: this.fb.array([this.createQuestion()]),
     });
-    this.addQuestion();
   }
 
   get questions(): FormArray {
     return this.form.get('questions') as FormArray;
   }
 
-  options(qIndex: number): FormArray {
-    return this.questions.at(qIndex).get('options') as FormArray;
-  }
-
-  addQuestion(): void {
-    const q = this.fb.group({
+  createQuestion(): FormGroup {
+    return this.fb.group({
       text: ['', Validators.required],
-      options: this.fb.array([
-        this.fb.control('', Validators.required),
-        this.fb.control('', Validators.required),
-      ]),
+      options: this.fb.array([this.fb.control('', Validators.required), this.fb.control('', Validators.required)]),
       correctAnswer: [0, [Validators.required, Validators.min(0)]],
       points: [1, [Validators.required, Validators.min(1)]],
     });
-    this.questions.push(q);
+  }
+
+  addQuestion(): void {
+    this.questions.push(this.createQuestion());
   }
 
   removeQuestion(i: number): void {
@@ -74,6 +69,10 @@ export class TestCreationComponent implements OnInit {
     this.options(qIndex).removeAt(oIndex);
   }
 
+  options(qIndex: number): FormArray {
+    return this.questions.at(qIndex).get('options') as FormArray;
+  }
+
   submit(): void {
     if (this.form.invalid) {
       alert('Пожалуйста, заполните все обязательные поля');
@@ -82,14 +81,14 @@ export class TestCreationComponent implements OnInit {
     const newTest: Test = this.form.value;
     this.testService.saveTest(newTest).subscribe({
       next: () => {
-        alert('Тест сохранён в mock-db!');
+        alert('Тест сохранён');
         this.form.reset({ title: '', timeLimit: 5 });
         this.questions.clear();
         this.addQuestion();
       },
       error: (err) => {
         console.error(err);
-        alert('Ошибка при сохранении. См. консоль.');
+        alert('Ошибка при сохранении');
       },
     });
   }
